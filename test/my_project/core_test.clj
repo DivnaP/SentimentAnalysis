@@ -9,4 +9,11 @@
 (deftest extract-test
   (testing "extract merhod returns feeling from dictionaru"
            (read-file)
-           (is (= "weak_negative" (extract "unable" "a")))))
+           (is (= "weak_negative" (extract "unable" "a")))
+           (is (= "weak_positive" (extract "able" "a")))
+           (is (= nil (extract "unableee" "a")))))
+
+(deftest set-maps-test
+  (testing "set maps method"
+           (is (= nil (set-maps2)))))
+
