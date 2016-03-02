@@ -49,9 +49,7 @@
   )
 (defn set-maps2 []
   (do
-  
     (doseq [t (keys @temp)]
-     
         (def v (get @temp t))
         (def score (atom 0.0))
         (def sum (atom 0.0))
@@ -78,23 +76,21 @@
   (doseq [line file-seqe]
     (def  data (str/split line #"\t"))
     (def score (- (String->Number(get data 2))(String->Number(get data 3))))
-     (def words (str/split (get data 4) #" "))
+    (def words (str/split (get data 4) #" "))
     (doseq [x words]
-     
       (def w-n (atom (str/split x #"#")))
-     (swap! w-n (fn [wn]
+      (swap! w-n (fn [wn]
                   (assoc wn 0 (str (get wn 0) "#" (get data 0)))))
      
-     (def index (- (String->Number(get @w-n 1)) 1))
+      (def index (- (String->Number(get @w-n 1)) 1))
  
-    (if ( find @temp (get @w-n 1))
+      (if ( find @temp (get @w-n 1))
        (do 
          (def v(atom(vector (get @temp (get @w-n 0)))))
-        ; (swap! v (get @temp (get @w-n 0)))
-      (if (> index (count v))
+         (if (> index (count v))
            (loop [i (count v)]
              (when (< i index)
-               (swap! v (fn[vec]
+              (swap! v (fn[vec]
                          (conj vec 0.0))))
                (recur (inc i))))
           (swap! v (fn[vect]
@@ -102,10 +98,10 @@
           (swap! temp (fn[t]
                         (assoc t (keyword (str(get @w-n 0))) @v))))
           (do
-            (def v(atom(vector )))
+              (def v(atom(vector )))
             (loop [i 0]
               (when (<= i index)
-                (swap! v (fn [vec]
+                  (swap! v (fn [vec]
                          (conj vec 0.0)))
                 (recur (inc i))))
             (swap! v (fn [vect]
@@ -114,13 +110,13 @@
                             (assoc te (keyword (str(get @w-n 0))) @v))))))) 
    (set-maps2)))
 
-(def text (slurp "data/test.txt"))
+
 
 (defn extract [token word]
   (get @dict (keyword(str token "#" word))))
 
-
-  (def stop-words (slurp "data/stop_words2.txt"))
+(def text (slurp "data/test.txt"))
+(def stop-words (slurp "data/stop_words2.txt"))
 
 (def type-words ["a" "n" "v" "r"])
 
@@ -154,10 +150,11 @@
   (println "positive" @countB)
   (println "negative" @countB)))
 
-; sa vise argumenata da nemam fiksnu listu type-words - ne radi
+; function with more arguments working!
 (defn classify-all2 [& args]
   (do
-    (def type-words (vector args))
+   ; (println (into [] args))
+    (def type-words (into [] args))
     (def countB (atom 0))
     (def tokens (str/split text #" "))
     (def stop false)
